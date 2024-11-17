@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Index</title>
+</head>
+<body>
+    <h1>main page</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{TaskForm.title}}
+        <button type="submit">create task</button>
+    </form>
+    <table>
+        <thead>
+            <tr>
+                <th>id</th>
+                <th>title</th>
+                <th>completed</th>
+                <th>created</th>
+                <th>update</th>
+                <th>delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if tasks %}
+                {% for task in tasks %}
+                    <tr>
+                        <td>{{task.id}}</td>
+                        <td>{{task.title}}</td>
+                        {% if task.completed == False %}
+                            <td>not completed</td>
+                        {% else %}
+                            <td>completed</td>
+                        {% endif %}
+                        <td>{{task.created}}</td>
+                        <td><a href="{% url "update-task" task.id %}">update</a></td>
+                        <td><a href="{% url "delete-task" task.id %}">delete</a></td>
+                    </tr>
+                {% endfor %}
+            {% endif %}
+        </tbody>
+    </table>
+</body>
+</html>
